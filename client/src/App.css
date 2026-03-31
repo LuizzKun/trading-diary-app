@@ -1,0 +1,14 @@
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 20px;
+  text-align: center;
+}
+
+.app-container h1 {
+  margin-bottom: 8px;
+}
+
+.app-container p {
+  margin-bottom: 24px;
+}
