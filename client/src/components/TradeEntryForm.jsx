@@ -8,6 +8,11 @@ function TradeEntryForm() {
   const [session, setSession] = useState('New York');
   const [notes, setNotes] = useState('');
   const [entries, setEntries] = useState([]);
+  const [filterSession, setFilterSession] = useState('All');
+
+  const handleDelete = (indexToDelete) => {
+    setEntries(entries.filter((_, index) => index !== indexToDelete));
+  }
 
   const handleSubmit = () => {
     const newEntry = {
@@ -26,6 +31,11 @@ function TradeEntryForm() {
     setEmotions([]);
     setNotes('');
   };
+
+  const filteredEntries = 
+    filterSession === 'All'
+      ? entries
+      : entries.filter((entry) => entry.session === filterSession);
 
   return (
     <div className ="app-container">
@@ -105,16 +115,31 @@ function TradeEntryForm() {
       </div>
 
       <button onClick={handleSubmit}>Save Trade</button>
+      <div className ="form-group">
+        <label htmlFor ="filtersession">Filter Saved Trades</label>
+        <select
+          id="filtersession"
+          value={filterSession}
+          onChange={(e) => setFilterSession(e.target.value)}
+        >
+          <option value="All">All</option>
+          <option value="Asia">Asia</option>
+          <option value="London">London</option>
+          <option value="New York">New York</option>
+        </select>
+      </div>
+
       <div className="entries-list">
         <h2>Saved Entries</h2>
 
-        {entries.map((entry, index) => (
+        {filteredEntries.map((entry, index) => (
           <div key={index} className ="entry-card">
             <p><strong>Date</strong> {entry.date}</p>
             <p><strong>Ticker</strong> {entry.ticker}</p>
             <p><strong>Session</strong> {entry.session}</p>
             <p><strong>Emotions</strong> {entry.emotions.join(', ')}</p>
             <p><strong>Notes</strong> {entry.notes}</p>
+            <button onClick={() => handleDelete(index)}>Delete</button>
           </div>
         ))}
       </div>
